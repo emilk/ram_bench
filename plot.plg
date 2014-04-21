@@ -1,0 +1,63 @@
+# thanks to http://www.gnuplotting.org/attractive-plots/
+
+set term pngcairo  # unlike 'png' we get anti-aliasing
+
+#set title "Measurements of the algorithmic complexity of linked list traversal"
+set xlabel "Size of linked list"
+set ylabel "ns per element"
+set nokey
+
+#set xtics ( \
+#	"1 kiB"        1024, ""       2048   1, ""       4096   1, ""       8192   1, ""       16384   1, \
+#	"32 kiB"      32768, ""      65536   1, ""     131072   1, ""     262144   1, ""      524288   1, \
+#	"1MiB"      1048576, ""    2097152   1, ""    4194304   1, ""    8388608   1, ""    16777216   1, \
+#	"32 MiB"   33554432, ""   67108864   1, ""  134217728   1, ""  268435456   1, ""   536870912   1, \
+#	"1 GiB"  1073741824, "" 2147483648.0 1, "" 4294967296.0 1, "" 8589934592.0 1, "" 17179869184.0 1  )
+
+set xtics ( \
+	"1kB"       1024, "10kB"       10000, "100kB"    100000, \
+	"1MB"    1000000, "10MB"    10000000, "100MB" 100000000, \
+	"1GB" 1000000000, "10GB" 10000000000.0 )
+
+set logscale x
+set logscale y
+
+# define axis
+# remove border on top and right and set color to gray
+set style line 11 lc rgb '#808080' lt 1
+set border 3 back ls 11
+set tics nomirror
+
+# define grid
+set style line 12 lc rgb '#808080' lt 0 lw 1
+set grid back ls 12
+
+set style line 1 lc rgb '#8b1a0e' pt -1 ps 1 lt 1 lw 2 #
+set style line 2 lc rgb '#8080ff' pt 0 ps 1 lt 1 lw 2 #
+
+ymin = 0.5
+ymax = 2000
+set yrange [ymin:ymax]
+unset autoscale y
+xf  = 1.0       # scale of x-axis
+L1  =  32*1024          # 32 kB L1 cache
+L2  = 256*1024          # 256 kB L2 cache
+L3  =   4*1024*1024     # 4 MB L3 cache
+RAM = 6*1024*1024*1024  # free RAM at the time of measurement
+
+set output "data.png"
+plot 'list_traversal.data' u 1:2 t 'ns/elem' w lp ls 1,
+
+
+set output "fit.png"
+curve(x) = 0.01*(sqrt(x))  # Based on the Bekenstein bound
+plot 'list_traversal.data' u 1:2 t 'ns/elem' w lp ls 1, \
+      curve(x) t "O(sqrt(N))" w lp ls 2
+
+
+set output "caches.png"
+set arrow from (xf*L1),ymin to (xf*L1),ymax nohead  # L1
+set arrow from (xf*L2),ymin to (xf*L2),ymax nohead  # L2
+set arrow from (xf*L3),ymin to (xf*L3),ymax nohead  # L3
+set arrow from (xf*RAM),ymin to (xf*RAM),ymax nohead  # RAM
+plot 'list_traversal.data' u 1:2 t 'ns/elem'    w lp ls 1
