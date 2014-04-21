@@ -40,7 +40,7 @@ But can we, in theory, do better? To answer that, we need to learn a bit about b
 
 ## The theoretical limit
 
-The amount of information that can fit within a sphere with radius r can be calculated using the Bekenstein bound, which says that the amount of information that can be contained by a sphere is directly proportional to the radius and mass: `I ∝ r·m`. So how massive can a sphere get? Well, what is the most dense thing in existence? A black hole! It turns out that the mass of a black hole is directly proportional to its radius, `m ∝ r`. This means that the amount of information that can fit inside a sphere of radius `r` is `I ∝ r²`. And so we come to the conclusion that the amount of information contained in a sphere is bounded by the area of that sphere - not the volume!
+The amount of information that can fit within a sphere with radius `r` can be calculated using the Bekenstein bound, which says that the amount of information that can be contained by a sphere is directly proportional to the radius and mass: `I ∝ r·m`. So how massive can a sphere get? Well, what is the most dense thing in existence? A black hole! It turns out that the mass of a black hole is directly proportional to its radius, `m ∝ r`. This means that the amount of information that can fit inside a sphere of radius `r` is `I ∝ r²`. And so we come to the conclusion that the amount of information contained in a sphere is bounded by the area of that sphere - not the volume!
 
 In short: if you try to squeeze too much L1 cache onto your CPU it will eventually collapse into a black hole, and that would make it awkward to get the results of the computation back to the user.
 
